@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bartosz Rogala Welyo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#08142e,#102d63);
+    overflow:hidden;
+}
+.container{
+    text-align:center;
+    color:white;
+    padding:40px;
+}
+.badge{
+    display:inline-block;
+    background:#23486f;
+    color:#fff;
+    padding:10px 20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+h1{font-size:72px;margin-bottom:20px}
+p{font-size:24px;opacity:.9}
+
+#widget-wrapper{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    z-index:99999;
+}
+
+.drag-handle{
+    background:rgba(255,255,255,.15);
+    color:white;
+    text-align:center;
+    padding:6px;
+    border-radius:8px 8px 0 0;
+    cursor:grab;
+    user-select:none;
+    font-size:12px;
+    margin-bottom:4px;
+}
+.drag-handle:active{
+    cursor:grabbing;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="badge">ELEVENLABS CONVAI</div>
+    <h1>Bartosz Rogala Welyo</h1>
+    <p>Demonstracja Voice AI ElevenLabs</p>
+</div>
+
+<div id="widget-wrapper">
+    <div id="dragHandle" class="drag-handle">⋮⋮ Przesuń asystenta</div>
+
+    <elevenlabs-convai
+        agent-id="agent_1101kt0zw4azf8etjt5zy5vbc1yg"
+        server-location="eu-residency">
+    </elevenlabs-convai>
+</div>
+
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+        async
+        type="text/javascript"></script>
+
+<script>
+const wrapper = document.getElementById("widget-wrapper");
+const handle = document.getElementById("dragHandle");
+
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+handle.addEventListener("mousedown", (e) => {
+    dragging = true;
+
+    const rect = wrapper.getBoundingClientRect();
+
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    wrapper.style.right = "auto";
+    wrapper.style.bottom = "auto";
+
+    e.preventDefault();
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+
+    wrapper.style.left = (e.clientX - offsetX) + "px";
+    wrapper.style.top = (e.clientY - offsetY) + "px";
+});
+
+document.addEventListener("mouseup", () => {
+    dragging = false;
+});
+</script>
+
+</body>
+</html>
